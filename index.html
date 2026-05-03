@@ -609,27 +609,29 @@ Réponds TOUJOURS en français. Garde tes réponses concises (3-4 paragraphes ma
     showTyping();
 
     try {
-      const response = await fetch(
-  "https://api.groq.com/openai/v1/chat/completions",
+      const res = await fetch(
+  'https://openrouter.ai/api/v1/chat/completions',
   {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer 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"
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer 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',
+      'HTTP-Referer': 'https://logos-chretien.netlify.app',
+      'X-Title': 'LOGOS'
     },
     body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
+      model: 'meta-llama/llama-3.3-70b-instruct:free',
       max_tokens: 1000,
       messages: [
-        { role: "system", content: SYSTEM_PROMPT },
+        { role: 'system', content: SYSTEM_PROMPT },
         ...history
       ],
     }),
   }
 );
-const data = await response.json();
+const data = await res.json();
 const reply = data.choices?.[0]?.message?.content 
-  || "Je n'ai pas pu répondre. Réessaie. 🙏";
+  || 'Je n\'ai pas pu répondre. Réessaie. 🙏';
       history.push({ role: 'assistant', content: reply });
       removeTyping();
       appendMessage('ai', reply);
